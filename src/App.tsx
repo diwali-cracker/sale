@@ -868,6 +868,7 @@ function Shop({
                               max={config.maxQuantity}
                               name={`${p.name} ${p.id}`}
                               onChange={(v) => change(p, v)}
+                              onRemove={() => removeLine(p.id, p.name)}
                             />
                           ) : (
                             <button

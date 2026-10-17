@@ -370,11 +370,13 @@ export function Quantity({
   max,
   name,
   onChange,
+  onRemove,
 }: {
   value: number;
   max: number;
   name: string;
   onChange: (v: unknown) => boolean;
+  onRemove?: () => void;
 }) {
   const [draft, setDraft] = useState(String(value));
   useEffect(() => setDraft(String(value)), [value]);
@@ -384,9 +386,15 @@ export function Quantity({
   return (
     <div className="quantity">
       <button
-        aria-label={`Decrease ${name} quantity`}
-        disabled={value <= 1}
-        onClick={() => onChange(value - 1)}
+        aria-label={
+          value <= 1 && onRemove
+            ? `Remove ${name} from cart`
+            : `Decrease ${name} quantity`
+        }
+        disabled={value <= 1 && !onRemove}
+        onClick={() =>
+          value <= 1 && onRemove ? onRemove() : onChange(value - 1)
+        }
       >
         −
       </button>
