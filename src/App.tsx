@@ -1199,6 +1199,7 @@ function Shop({
                             value={qty}
                             max={config.maxQuantity}
                             onChange={(v) => change(p, v)}
+                            onRemove={() => removeLine(id, p.name)}
                           />
                         ) : (
                           <span className="muted">Qty {qty}</span>
