@@ -168,6 +168,12 @@ function Shop({
   const [checkoutError, setCheckoutError] = useState("");
   const requestPrepared =
     !draft?.long || preparedFingerprint === draft.fingerprint;
+  const canReopenPreparedRequest =
+    !!draft &&
+    !draft.long &&
+    !isCheckoutDemo &&
+    online &&
+    handoff.startsWith("WhatsApp ");
   const tapGuard = useRef(0);
   const checking = useRef(false);
   const announce = useCallback((s: string) => setToast(s), []);
@@ -407,7 +413,7 @@ function Shop({
     }
   }
   function handoffRequest(provided?: RequestDraft) {
-    if (Date.now() - tapGuard.current < 1000) return;
+    if (Date.now() - tapGuard.current < 300) return;
     try {
       const current =
         provided ??
@@ -1472,7 +1478,12 @@ function Shop({
               )}
               <button
                 className="button whatsapp full"
-                type="submit"
+                type={canReopenPreparedRequest ? "button" : "submit"}
+                onClick={
+                  canReopenPreparedRequest
+                    ? () => handoffRequest(draft!)
+                    : undefined
+                }
                 disabled={
                   busy ||
                   changes.length > 0 ||
