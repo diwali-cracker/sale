@@ -13,7 +13,7 @@ export const useImageIndex = () => useContext(ImageIndexContext);
 
 const DIRECT_EXT = /\.(jpe?g|png|webp|gif|avif)$/i;
 const IMAGE_HOSTS = new Set(["image.prntscr.com", "img.lightshot.app", "i.imgur.com"]);
-const LOCAL_FILE = /^images\/[A-Za-z0-9._-]+\.webp$/;
+const LOCAL_FILE = /^images\/[A-Za-z0-9._-]+\.(?:jpe?g|png|webp|gif|avif)$/i;
 
 export function isDirectImage(link: string) {
   try {
